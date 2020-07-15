@@ -60,6 +60,11 @@ namespace csharpcore
                         item.Quality = CheckBounds(item.Quality);
                         item.SellIn--;
                         break;
+                    case "Conjured Mana Cake":
+                        item.Quality -= 2 * GenericQualityDecrease(item.SellIn);
+                        item.Quality = CheckBounds(item.Quality);
+                        item.SellIn--;
+                        break;
                     case "Sulfuras, Hand of Ragnaros":
                         break;
                     default:
