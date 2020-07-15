@@ -37,5 +37,18 @@ namespace csharpcore
             }
             Assert.Equal(2, items[0].SellIn);
         }
+        
+        [Fact]
+        public void QualityDegradesTwiceAsFastPastSellByDate()
+        {
+            IList<Item> items = new List<Item> { new Item { Name = "Dexterity Vest", SellIn = 5, Quality = 20}};
+            GildedRose app = new GildedRose(items);
+            for (var i = 0; i < 10; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            Assert.Equal(5, items[0].Quality);
+        }
     }
 }
