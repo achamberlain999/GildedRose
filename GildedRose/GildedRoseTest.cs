@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace csharpcore
 {
@@ -180,6 +181,19 @@ namespace csharpcore
             }
 
             Assert.Equal(80, items[0].Quality);
+        }
+        
+        [Fact]
+        public void ConjuredItemsDegradeFaster()
+        {
+            IList<Item> items = new List<Item> { new Item { Name = "Conjured Mana Cake", SellIn = 10, Quality = 40}};
+            GildedRose app = new GildedRose(items);
+            for (var i = 0; i < 5; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            Assert.Equal(30, items[0].Quality);
         }
     }
 }
