@@ -4,68 +4,78 @@ namespace csharpcore
 {
     public class GildedRose
     {
-        IList<Item> Items;
+        private readonly IList<Item> _items;
         public GildedRose(IList<Item> items)
         {
-            Items = items;
+            _items = items;
         }
 
-        private int BackstageQualityIncrease(int sellIn)
+        private const int MinQuality = 0;
+        private const int MaxQuality = 50;
+
+        private static int BackstageQualityIncrease(int sellIn)
         {
-            if (sellIn > 10)
+            const int firstIncrease = 10;
+            const int secondIncrease = 5;
+            const int thirdIncrease = 0;
+            
+            if (sellIn > firstIncrease)
             {
                 return 1;
             }
 
-            if (sellIn > 5)
+            if (sellIn > secondIncrease)
             {
                 return 2;
             }
 
-            if (sellIn > 0)
+            if (sellIn > thirdIncrease)
             {
                 return 3;
             }
 
-            return -50;
+            return -MaxQuality;
         }
 
-        private int GenericQualityDecrease(int sellIn)
+        private static int NormalQualityDecrease(int sellIn)
         {
-            return sellIn <= 0 ? 2 : 1;
+            const int normalDecrease = 1;
+            const int outOfDateMultiplier = 2;
+            return sellIn <= 0 ? outOfDateMultiplier*normalDecrease : normalDecrease;
         }
 
-        private int CheckBounds(int quality)
+        private static int RestrictQuality(int quality)
         {
-            if (quality > 50)
+            if (quality > MaxQuality)
             {
-                return 50;
+                return MaxQuality;
             }
-            return quality < 0 ? 0 : quality;
+            
+            return quality < MinQuality ? MinQuality : quality;
         }
 
         public void UpdateQuality()
         {
-            foreach (var item in Items)
+            foreach (var item in _items)
             {
                 switch (item.Name)
                 {
                     case "Backstage passes to a TAFKAL80ETC concert":
-                        item.Quality = CheckBounds(item.Quality + BackstageQualityIncrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality + BackstageQualityIncrease(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Aged Brie":
-                        item.Quality = CheckBounds(item.Quality + GenericQualityDecrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality + NormalQualityDecrease(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Conjured Mana Cake":
-                        item.Quality = CheckBounds(item.Quality - 2 * GenericQualityDecrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality - 2 * NormalQualityDecrease(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Sulfuras, Hand of Ragnaros":
                         break;
                     default:
-                        item.Quality = CheckBounds(item.Quality - GenericQualityDecrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality - NormalQualityDecrease(item.SellIn));
                         item.SellIn--;
                         break;
                 }
