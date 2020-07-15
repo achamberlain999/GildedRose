@@ -42,16 +42,13 @@ namespace csharpcore
                 {
                     item.Quality += GetBackstageQualityIncrease(item.SellIn);
                 }
-                else if (item.Name != brie)
-                {
-                    if (item.Name != sufluras)
-                    {
-                        item.Quality--;
-                    }
-                }
-                else
+                else if (item.Name == brie)
                 {
                     item.Quality++;
+                }
+                else if (item.Name != sufluras)
+                {
+                    item.Quality--;
                 }
 
                 if (item.Name != sufluras)
