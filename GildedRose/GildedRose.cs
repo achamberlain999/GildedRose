@@ -16,12 +16,9 @@ namespace csharpcore
             {
                 if (Items[i].Name != "Aged Brie" && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
                 {
-                    if (Items[i].Quality > 0)
+                    if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
                     {
-                        if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            Items[i].Quality = Items[i].Quality - 1;
-                        }
+                        Items[i].Quality = Items[i].Quality - 1;
                     }
                 }
                 else
@@ -53,13 +50,10 @@ namespace csharpcore
                     {
                         if (Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
                         {
-                            if (Items[i].Quality > 0)
-                            {
-                                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
+                            if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
                                 {
                                     Items[i].Quality = Items[i].Quality - 1;
                                 }
-                            }
                         }
                         else
                         {
@@ -72,10 +66,15 @@ namespace csharpcore
                     }
                 }
                 
-                // Move the 50 check to here
                 if (Items[i].Quality > 50)
                 {
                     Items[i].Quality = 50;
+                }
+                
+                // Move the check for negative quality here
+                if (Items[i].Quality < 0)
+                {
+                    Items[i].Quality = 0;
                 }
             }
         }
