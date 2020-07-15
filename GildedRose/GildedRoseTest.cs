@@ -63,5 +63,18 @@ namespace csharpcore
 
             Assert.Equal(0, items[0].Quality);
         }
+        
+        [Fact]
+        public void AgedBrieIncreasesInQuality()
+        {
+            IList<Item> items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 10, Quality = 20}};
+            GildedRose app = new GildedRose(items);
+            for (var i = 0; i < 5; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            Assert.Equal(25, items[0].Quality);
+        }
     }
 }
