@@ -168,5 +168,18 @@ namespace csharpcore
 
             Assert.Equal(0, items[0].Quality);
         }
+        
+        [Fact]
+        public void SulfurasAllowedQualityEighty()
+        {
+            IList<Item> items = new List<Item> { new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 10, Quality = 80}};
+            GildedRose app = new GildedRose(items);
+            for (var i = 0; i < 1; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            Assert.Equal(80, items[0].Quality);
+        }
     }
 }

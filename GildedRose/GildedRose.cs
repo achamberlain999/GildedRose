@@ -34,7 +34,7 @@ namespace csharpcore
         {
             const string brie = "Aged Brie";
             const string backstage = "Backstage passes to a TAFKAL80ETC concert";
-            const string sufluras = "Sulfuras, Hand of Ragnaros";
+            const string sulfuras = "Sulfuras, Hand of Ragnaros";
 
             foreach (var item in Items)
             {
@@ -46,39 +46,29 @@ namespace csharpcore
                 {
                     item.Quality++;
                 }
-                else if (item.Name != sufluras)
+                else if (item.Name != sulfuras)
                 {
                     item.Quality--;
                 }
 
-                if (item.Name != sufluras)
+                if (item.Name != sulfuras)
                 {
                     item.SellIn--;
                 }
 
                 if (item.SellIn < 0)
                 {
-                    if (item.Name != brie)
+                    if (item.Name != brie && item.Name != backstage && item.Name != sulfuras)
                     {
-                        if (item.Name != backstage)
-                        {
-                            if (item.Name != sufluras)
-                            {
-                                item.Quality--;
-                            }
-                        }
-                        else
-                        {
-                            item.Quality = 0;
-                        }
+                        item.Quality--;
                     }
-                    else
+                    else if (item.Name != sulfuras && item.Name != backstage)
                     {
                         item.Quality++;
                     }
                 }
                 
-                if (item.Quality > 50)
+                if (item.Quality > 50 && item.Name != sulfuras)
                 {
                     item.Quality = 50;
                 }
