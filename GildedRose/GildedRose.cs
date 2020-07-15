@@ -13,7 +13,7 @@ namespace csharpcore
         private const int MinQuality = 0;
         private const int MaxQuality = 50;
 
-        private static int BackstageQualityIncrease(int sellIn)
+        private static int QualityChange_BackstagePass(int sellIn)
         {
             const int firstIncrease = 10;
             const int secondIncrease = 5;
@@ -37,11 +37,19 @@ namespace csharpcore
             return -MaxQuality;
         }
 
-        private static int NormalQualityDecrease(int sellIn)
+        private static int QualityChange_AgedBrie(int sellIn)
         {
-            const int normalDecrease = 1;
-            const int outOfDateMultiplier = 2;
-            return sellIn <= 0 ? outOfDateMultiplier*normalDecrease : normalDecrease;
+            return sellIn <= 0 ? 2 : 1;
+        }
+        
+        private static int QualityChange_Normal(int sellIn)
+        {
+            return sellIn <= 0 ? -2 : -1;
+        }
+
+        private static int QualityChange_Conjured(int sellIn)
+        {
+            return 2 * QualityChange_Normal(sellIn);
         }
 
         private static int RestrictQuality(int quality)
@@ -61,21 +69,21 @@ namespace csharpcore
                 switch (item.Name)
                 {
                     case "Backstage passes to a TAFKAL80ETC concert":
-                        item.Quality = RestrictQuality(item.Quality + BackstageQualityIncrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality + QualityChange_BackstagePass(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Aged Brie":
-                        item.Quality = RestrictQuality(item.Quality + NormalQualityDecrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality + QualityChange_AgedBrie(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Conjured Mana Cake":
-                        item.Quality = RestrictQuality(item.Quality - 2 * NormalQualityDecrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality + QualityChange_Conjured(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Sulfuras, Hand of Ragnaros":
                         break;
                     default:
-                        item.Quality = RestrictQuality(item.Quality - NormalQualityDecrease(item.SellIn));
+                        item.Quality = RestrictQuality(item.Quality + QualityChange_Normal(item.SellIn));
                         item.SellIn--;
                         break;
                 }
