@@ -29,11 +29,6 @@ namespace csharpcore
 
             return -50;
         }
-        
-        private int BrieQualityIncrease(int sellIn)
-        {
-            return sellIn <= 0 ? 2 : 1;
-        }
 
         private int GenericQualityDecrease(int sellIn)
         {
@@ -61,7 +56,7 @@ namespace csharpcore
                         item.SellIn--;
                         break;
                     case "Aged Brie":
-                        item.Quality += BrieQualityIncrease(item.SellIn);
+                        item.Quality += GenericQualityDecrease(item.SellIn);
                         item.Quality = CheckBounds(item.Quality);
                         item.SellIn--;
                         break;
