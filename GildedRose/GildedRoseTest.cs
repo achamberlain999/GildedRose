@@ -50,5 +50,18 @@ namespace csharpcore
 
             Assert.Equal(5, items[0].Quality);
         }
+        
+        [Fact]
+        public void QualityIsNeverNegative()
+        {
+            IList<Item> items = new List<Item> { new Item { Name = "Dexterity Vest", SellIn = 10, Quality = 5}};
+            GildedRose app = new GildedRose(items);
+            for (var i = 0; i < 15; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            Assert.Equal(0, items[0].Quality);
+        }
     }
 }
