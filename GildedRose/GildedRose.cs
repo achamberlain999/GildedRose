@@ -40,6 +40,15 @@ namespace csharpcore
             return sellIn <= 0 ? 2 : 1;
         }
 
+        private int CheckBounds(int quality)
+        {
+            if (quality > 50)
+            {
+                return 50;
+            }
+            return quality < 0 ? 0 : quality;
+        }
+
         public void UpdateQuality()
         {
             const string brie = "Aged Brie";
@@ -52,30 +61,21 @@ namespace csharpcore
                 {
                     case backstage:
                         item.Quality += BackstageQualityIncrease(item.SellIn);
+                        item.Quality = CheckBounds(item.Quality);
+                        item.SellIn--;
                         break;
                     case brie:
                         item.Quality += BrieQualityIncrease(item.SellIn);
+                        item.Quality = CheckBounds(item.Quality);
+                        item.SellIn--;
                         break;
                     case sulfuras:
                         break;
                     default:
                         item.Quality -= GenericQualityDecrease(item.SellIn);
+                        item.Quality = CheckBounds(item.Quality);
+                        item.SellIn--;
                         break;
-                }
-
-                if (item.Name != sulfuras)
-                {
-                    item.SellIn--;
-                    
-                    if (item.Quality > 50 && item.Name != sulfuras)
-                    {
-                        item.Quality = 50;
-                    }
-                }
-
-                if (item.Quality < 0)
-                {
-                    item.Quality = 0;
                 }
             }
         }
