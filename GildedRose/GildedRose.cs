@@ -51,25 +51,21 @@ namespace csharpcore
 
         public void UpdateQuality()
         {
-            const string brie = "Aged Brie";
-            const string backstage = "Backstage passes to a TAFKAL80ETC concert";
-            const string sulfuras = "Sulfuras, Hand of Ragnaros";
-
             foreach (var item in Items)
             {
                 switch (item.Name)
                 {
-                    case backstage:
+                    case "Backstage passes to a TAFKAL80ETC concert":
                         item.Quality += BackstageQualityIncrease(item.SellIn);
                         item.Quality = CheckBounds(item.Quality);
                         item.SellIn--;
                         break;
-                    case brie:
+                    case "Aged Brie":
                         item.Quality += BrieQualityIncrease(item.SellIn);
                         item.Quality = CheckBounds(item.Quality);
                         item.SellIn--;
                         break;
-                    case sulfuras:
+                    case "Sulfuras, Hand of Ragnaros":
                         break;
                     default:
                         item.Quality -= GenericQualityDecrease(item.SellIn);
