@@ -10,7 +10,7 @@ namespace csharpcore
             Items = items;
         }
 
-        private int GetBackstageQualityIncrease(int sellIn)
+        private int BackstageQualityIncrease(int sellIn)
         {
             if (sellIn > 10)
             {
@@ -29,6 +29,16 @@ namespace csharpcore
 
             return -50;
         }
+        
+        private int BrieQualityIncrease(int sellIn)
+        {
+            return sellIn <= 0 ? 2 : 1;
+        }
+
+        private int GenericQualityDecrease(int sellIn)
+        {
+            return sellIn <= 0 ? 2 : 1;
+        }
 
         public void UpdateQuality()
         {
@@ -40,15 +50,15 @@ namespace csharpcore
             {
                 if (item.Name == backstage)
                 {
-                    item.Quality += GetBackstageQualityIncrease(item.SellIn);
+                    item.Quality += BackstageQualityIncrease(item.SellIn);
                 }
                 else if (item.Name == brie)
                 {
-                    item.Quality++;
+                    item.Quality += BrieQualityIncrease(item.SellIn);
                 }
                 else if (item.Name != sulfuras)
                 {
-                    item.Quality--;
+                    item.Quality -= GenericQualityDecrease(item.SellIn);
                 }
 
                 if (item.Name != sulfuras)
@@ -56,18 +66,6 @@ namespace csharpcore
                     item.SellIn--;
                 }
 
-                if (item.SellIn < 0)
-                {
-                    if (item.Name != brie && item.Name != backstage && item.Name != sulfuras)
-                    {
-                        item.Quality--;
-                    }
-                    else if (item.Name != sulfuras && item.Name != backstage)
-                    {
-                        item.Quality++;
-                    }
-                }
-                
                 if (item.Quality > 50 && item.Name != sulfuras)
                 {
                     item.Quality = 50;
