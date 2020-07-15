@@ -10,6 +10,26 @@ namespace csharpcore
             Items = items;
         }
 
+        private int GetBackstageQualityIncrease(int sellIn)
+        {
+            if (sellIn > 10)
+            {
+                return 1;
+            }
+
+            if (sellIn > 5)
+            {
+                return 2;
+            }
+
+            if (sellIn > 0)
+            {
+                return 3;
+            }
+
+            return -50;
+        }
+
         public void UpdateQuality()
         {
             const string brie = "Aged Brie";
@@ -18,7 +38,11 @@ namespace csharpcore
 
             foreach (var item in Items)
             {
-                if (item.Name != brie && item.Name != backstage)
+                if (item.Name == backstage)
+                {
+                    item.Quality += GetBackstageQualityIncrease(item.SellIn);
+                }
+                else if (item.Name != brie)
                 {
                     if (item.Name != sufluras)
                     {
@@ -28,19 +52,6 @@ namespace csharpcore
                 else
                 {
                     item.Quality++;
-
-                    if (item.Name == backstage)
-                    {
-                        if (item.SellIn < 11)
-                        {
-                            item.Quality++;
-                        }
-
-                        if (item.SellIn < 6)
-                        {
-                            item.Quality++;
-                        }
-                    }
                 }
 
                 if (item.Name != sufluras)
