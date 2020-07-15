@@ -51,25 +51,21 @@ namespace csharpcore
                 switch (item.Name)
                 {
                     case "Backstage passes to a TAFKAL80ETC concert":
-                        item.Quality += BackstageQualityIncrease(item.SellIn);
-                        item.Quality = CheckBounds(item.Quality);
+                        item.Quality = CheckBounds(item.Quality + BackstageQualityIncrease(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Aged Brie":
-                        item.Quality += GenericQualityDecrease(item.SellIn);
-                        item.Quality = CheckBounds(item.Quality);
+                        item.Quality = CheckBounds(item.Quality + GenericQualityDecrease(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Conjured Mana Cake":
-                        item.Quality -= 2 * GenericQualityDecrease(item.SellIn);
-                        item.Quality = CheckBounds(item.Quality);
+                        item.Quality = CheckBounds(item.Quality - 2 * GenericQualityDecrease(item.SellIn));
                         item.SellIn--;
                         break;
                     case "Sulfuras, Hand of Ragnaros":
                         break;
                     default:
-                        item.Quality -= GenericQualityDecrease(item.SellIn);
-                        item.Quality = CheckBounds(item.Quality);
+                        item.Quality = CheckBounds(item.Quality - GenericQualityDecrease(item.SellIn));
                         item.SellIn--;
                         break;
                 }
