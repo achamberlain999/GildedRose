@@ -12,7 +12,18 @@ namespace csharpcore
 
         private const int MinQuality = 0;
         private const int MaxQuality = 50;
+        
+        private static int RestrictQuality(int quality)
+        {
+            if (quality > MaxQuality)
+            {
+                return MaxQuality;
+            }
+            
+            return quality < MinQuality ? MinQuality : quality;
+        }
 
+        // These 4 functions could go in the subclasses corresponding to that item
         private static int QualityChange_BackstagePass(int sellIn)
         {
             const int firstIncrease = 10;
@@ -51,42 +62,36 @@ namespace csharpcore
         {
             return 2 * QualityChange_Normal(sellIn);
         }
-
-        private static int RestrictQuality(int quality)
+        
+        // These two functions would be replaced with the identifyItem method
+        private static int QualityChange(string name, int sellIn, int quality)
         {
-            if (quality > MaxQuality)
+            return name switch
             {
-                return MaxQuality;
-            }
-            
-            return quality < MinQuality ? MinQuality : quality;
+                "Backstage passes to a TAFKAL80ETC concert" => RestrictQuality(
+                    quality + QualityChange_BackstagePass(sellIn)),
+                "Aged Brie" => RestrictQuality(quality + QualityChange_AgedBrie(sellIn)),
+                "Conjured Mana Cake" => RestrictQuality(quality + QualityChange_Conjured(sellIn)),
+                "Sulfuras, Hand of Ragnaros" => quality,
+                _ => RestrictQuality(quality + QualityChange_Normal(sellIn)),
+            };
         }
-
-        public void UpdateQuality()
+        
+        private static int SellInChange(string name, int sellIn)
+        {
+            return name switch
+            {
+                "Sulfuras, Hand of Ragnaros" => sellIn,
+                _ => sellIn - 1,
+            };
+        }
+        
+        public void DailyUpdate()
         {
             foreach (var item in _items)
             {
-                switch (item.Name)
-                {
-                    case "Backstage passes to a TAFKAL80ETC concert":
-                        item.Quality = RestrictQuality(item.Quality + QualityChange_BackstagePass(item.SellIn));
-                        item.SellIn--;
-                        break;
-                    case "Aged Brie":
-                        item.Quality = RestrictQuality(item.Quality + QualityChange_AgedBrie(item.SellIn));
-                        item.SellIn--;
-                        break;
-                    case "Conjured Mana Cake":
-                        item.Quality = RestrictQuality(item.Quality + QualityChange_Conjured(item.SellIn));
-                        item.SellIn--;
-                        break;
-                    case "Sulfuras, Hand of Ragnaros":
-                        break;
-                    default:
-                        item.Quality = RestrictQuality(item.Quality + QualityChange_Normal(item.SellIn));
-                        item.SellIn--;
-                        break;
-                }
+                item.Quality = QualityChange(item.Name, item.SellIn, item.Quality);
+                item.SellIn = SellInChange(item.Name, item.SellIn);
             }
         }
     }

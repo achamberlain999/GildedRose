@@ -10,7 +10,7 @@ namespace csharpcore.Tests
         {
             IList<Item> items = new List<Item> { new Item { Name = "Conjured Mana Cake", SellIn = 10, Quality = 40}};
             var app = new GildedRose(items);
-            app.UpdateQuality();
+            app.DailyUpdate();
             Assert.Equal(38, items[0].Quality);
         }
     }

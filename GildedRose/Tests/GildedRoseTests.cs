@@ -10,7 +10,7 @@ namespace csharpcore
         {
             IList<Item> items = new List<Item> { new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20}};
             var app = new GildedRose(items);
-            app.UpdateQuality();
+            app.DailyUpdate();
             Assert.Equal(19, items[0].Quality);
         }
 
@@ -19,7 +19,7 @@ namespace csharpcore
         {
             IList<Item> items = new List<Item> { new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20}};
             var app = new GildedRose(items);
-            app.UpdateQuality();
+            app.DailyUpdate();
             Assert.Equal(9, items[0].SellIn);
         }
         
@@ -28,7 +28,7 @@ namespace csharpcore
         {
             IList<Item> items = new List<Item> { new Item { Name = "+5 Dexterity Vest", SellIn = 0, Quality = 20}};
             var app = new GildedRose(items);
-            app.UpdateQuality();
+            app.DailyUpdate();
             Assert.Equal(18, items[0].Quality);
         }
         
@@ -37,7 +37,7 @@ namespace csharpcore
         {
             IList<Item> items = new List<Item> { new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 0}};
             var app = new GildedRose(items);
-            app.UpdateQuality();
+            app.DailyUpdate();
             Assert.Equal(0, items[0].Quality);
         }
     }
