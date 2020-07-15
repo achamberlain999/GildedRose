@@ -12,11 +12,15 @@ namespace csharpcore
 
         public void UpdateQuality()
         {
+            const string brie = "Aged Brie";
+            const string backstage = "Backstage passes to a TAFKAL80ETC concert";
+            const string sufluras = "Sulfuras, Hand of Ragnaros";
+
             foreach (var item in Items)
             {
-                if (item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                if (item.Name != brie && item.Name != backstage)
                 {
-                    if (item.Name != "Sulfuras, Hand of Ragnaros")
+                    if (item.Name != sufluras)
                     {
                         item.Quality--;
                     }
@@ -25,7 +29,7 @@ namespace csharpcore
                 {
                     item.Quality++;
 
-                    if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                    if (item.Name == backstage)
                     {
                         if (item.SellIn < 11)
                         {
@@ -39,18 +43,18 @@ namespace csharpcore
                     }
                 }
 
-                if (item.Name != "Sulfuras, Hand of Ragnaros")
+                if (item.Name != sufluras)
                 {
                     item.SellIn--;
                 }
 
                 if (item.SellIn < 0)
                 {
-                    if (item.Name != "Aged Brie")
+                    if (item.Name != brie)
                     {
-                        if (item.Name != "Backstage passes to a TAFKAL80ETC concert")
+                        if (item.Name != backstage)
                         {
-                            if (item.Name != "Sulfuras, Hand of Ragnaros")
+                            if (item.Name != sufluras)
                             {
                                 item.Quality--;
                             }
