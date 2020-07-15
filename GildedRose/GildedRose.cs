@@ -48,29 +48,31 @@ namespace csharpcore
 
             foreach (var item in Items)
             {
-                if (item.Name == backstage)
+                switch (item.Name)
                 {
-                    item.Quality += BackstageQualityIncrease(item.SellIn);
-                }
-                else if (item.Name == brie)
-                {
-                    item.Quality += BrieQualityIncrease(item.SellIn);
-                }
-                else if (item.Name != sulfuras)
-                {
-                    item.Quality -= GenericQualityDecrease(item.SellIn);
+                    case backstage:
+                        item.Quality += BackstageQualityIncrease(item.SellIn);
+                        break;
+                    case brie:
+                        item.Quality += BrieQualityIncrease(item.SellIn);
+                        break;
+                    case sulfuras:
+                        break;
+                    default:
+                        item.Quality -= GenericQualityDecrease(item.SellIn);
+                        break;
                 }
 
                 if (item.Name != sulfuras)
                 {
                     item.SellIn--;
+                    
+                    if (item.Quality > 50 && item.Name != sulfuras)
+                    {
+                        item.Quality = 50;
+                    }
                 }
 
-                if (item.Quality > 50 && item.Name != sulfuras)
-                {
-                    item.Quality = 50;
-                }
-                
                 if (item.Quality < 0)
                 {
                     item.Quality = 0;
