@@ -155,5 +155,18 @@ namespace csharpcore
 
             Assert.Equal(40, items[0].Quality);
         }
+        
+        [Fact]
+        public void BackstagePassesQualityIsZeroAfterEvent()
+        {
+            IList<Item> items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = -4, Quality = 25}};
+            GildedRose app = new GildedRose(items);
+            for (var i = 0; i < 1; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            Assert.Equal(0, items[0].Quality);
+        }
     }
 }
